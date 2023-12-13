@@ -1,0 +1,118 @@
+{
+  "$schema": "https://github.com/Azure/data-api-builder/releases/download/v0.9.7/dab.draft.schema.json",
+  "data-source": {
+    "database-type": "mssql",
+    "connection-string": "@env('DAB_DEMO_CONNECTION_STRING')",
+    "options": {
+      "set-session-context": false
+    }
+  },
+  "runtime": {
+    "rest": {
+      "enabled": true,
+      "path": "/api",
+      "request-body-strict": true
+    },
+    "graphql": {
+      "enabled": true,
+      "path": "/graphql",
+      "allow-introspection": true
+    },
+    "host": {
+      "cors": {
+        "origins": [],
+        "allow-credentials": false
+      },
+      "authentication": {
+        "provider": "StaticWebApps"
+      },
+      "mode": "@env('DAB_ENV')"
+    }
+  },
+  "entities": {
+    "company": {
+      "source": {
+        "object": "dbo.Company",
+        "type": "table"
+      },
+      "graphql": {
+        "enabled": true,
+        "type": {
+          "singular": "company",
+          "plural": "companies"
+        }
+      },
+      "rest": {
+        "enabled": true,
+        "path": "/companies"
+      },
+      "relationships": {
+        "Employees": {
+          "target.entity": "employee",
+          "cardinality": "many"
+        }
+      },
+      "permissions": [
+        {
+          "role": "anonymous",
+          "actions": [
+            {
+              "action": "create"
+            },
+            {
+              "action": "read"
+            },
+            {
+              "action": "update"
+            },
+            {
+              "action": "delete"
+            }
+          ]
+        }
+      ]
+    },
+    "employee": {
+      "source": {
+        "object": "dbo.Employee",
+        "type": "table"
+      },
+      "graphql": {
+        "enabled": true,
+        "type": {
+          "singular": "employee",
+          "plural": "employees"
+        }
+      },
+      "rest": {
+        "enabled": true,
+        "path": "/employees"
+      },
+      "relationships": {
+        "Company": {
+          "target.entity": "company",
+          "cardinality": "one"
+        }
+      },
+      "permissions": [
+        {
+          "role": "anonymous",
+          "actions": [
+            {
+              "action": "create"
+            },
+            {
+              "action": "read"
+            },
+            {
+              "action": "update"
+            },
+            {
+              "action": "delete"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

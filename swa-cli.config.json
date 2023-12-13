@@ -1,0 +1,13 @@
+{
+  "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
+  "configurations": {
+    "dab-demo": {
+      "appLocation": ".",
+      "outputLocation": "dist/spa",
+      "dataApiLocation": "swa-db-connections",
+      "appBuildCommand": "yarn build",
+      "run": "yarn serve",
+      "appDevserverUrl": "http://localhost:9000"
+    }
+  }
+}
